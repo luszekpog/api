@@ -10,8 +10,8 @@ namespace CryptoAPI.Repositories
         Task<Crypto> Get(int id);
         Task<Crypto> Create(Crypto crypto);
         Task Update(Crypto crypto);
-
         Task Delete(int id);
-
+        Task<List<CryptoWithoutPrice>> GetWithoutPrices();
     }
+
 }

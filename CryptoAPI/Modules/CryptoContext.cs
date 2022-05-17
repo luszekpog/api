@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace CryptoAPI.Modules
 {
@@ -7,8 +8,9 @@ namespace CryptoAPI.Modules
         public CryptoContext(DbContextOptions<CryptoContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+
         }
-        public DbSet<Crypto> Coins{ get; set; }
+        public DbSet<Crypto> Cryptocurrencies { get; set; }
+
     }
 }

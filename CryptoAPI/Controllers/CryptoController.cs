@@ -1,13 +1,12 @@
 ﻿using CryptoAPI.Modules;
 using CryptoAPI.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CryptoAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CryptoController : ControllerBase
     {
@@ -17,34 +16,35 @@ namespace CryptoAPI.Controllers
         {
             _cryptorepository = cryptorepository;
         }
-        [HttpGet]
-        public async Task<IEnumerable<Crypto>> GetCryptos()
-        {
-            return await _cryptorepository.Get();
-        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Crypto>> GetCrypto(int id)
         {
             return await _cryptorepository.Get(id);
         }
+        [HttpGet]
+        public async Task<IEnumerable<Crypto>> GetCryptos()
+        {
+            return await _cryptorepository.Get();
+        }
+
         [HttpPost]
-        public async Task<ActionResult<Crypto>> PostCrypto([FromBody]Crypto crypto)
+        public async Task<ActionResult<Crypto>> PostCrypto([FromBody] Crypto crypto)
         {
             var newCrypto = await _cryptorepository.Create(crypto);
             return CreatedAtAction(nameof(GetCrypto), new { id = newCrypto.Id }, newCrypto);
         }
         [HttpPut]
-        public async Task<ActionResult<Crypto>> PutCrypto([FromBody]int id, Crypto crypto)
+        public async Task<ActionResult<Crypto>> PutCrypto(int id, [FromBody] Crypto crypto)
         {
-            if(id != crypto.Id)
+            if (id != crypto.Id)
             {
                 return BadRequest();
             }
             await _cryptorepository.Update(crypto);
             return NoContent();
         }
-        [HttpDelete]
-        public async Task<ActionResult> DeleteCrypto([FromBody]int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCrypto(int id)
         {
             var bookToDelete = await _cryptorepository.Get(id);
             if (bookToDelete == null)
@@ -53,5 +53,12 @@ namespace CryptoAPI.Controllers
             await _cryptorepository.Delete(bookToDelete.Id);
             return NoContent();
         }
+        [HttpGet]
+        public async Task<List<CryptoWithoutPrice>> GetWithoutPrice()
+            {
+            return await _cryptorepository.GetWithoutPrices();
+            }
+   
     }
+   
 }
