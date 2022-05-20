@@ -1,5 +1,6 @@
 ﻿using CryptoAPI.Modules;
 using CryptoAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace CryptoAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class CryptoController : ControllerBase
     {
         private readonly ICryptoRepository _cryptorepository;
